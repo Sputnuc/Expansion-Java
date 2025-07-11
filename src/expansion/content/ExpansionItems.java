@@ -9,7 +9,7 @@ import static mindustry.content.Items.*;
 public class ExpansionItems {
         public static Item
         //serpulo items
-        tebriy, tebriyAlloy, siliconAlloy, cobalt, carbon, wood, test,
+        tebriy, tebriyAlloy, siliconAlloy, cobalt, carbon, wood,
         //erekir items
         calcite, nickel;
         public static void load() {
@@ -47,9 +47,6 @@ public class ExpansionItems {
             nickel = new Item("nickel", ExpPal.nickelPal){{
                 cost = 5;
                 hardness = 4;
-            }};
-            test = new Item("test", Color.valueOf("a37656")){{
-                flammability = 10;
             }};
         }
 }

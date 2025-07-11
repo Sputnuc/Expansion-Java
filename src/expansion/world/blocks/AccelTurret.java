@@ -4,10 +4,13 @@ import arc.Core;
 import arc.math.*;
 import arc.util.*;
 import arc.util.io.*;
+import expansion.world.meta.ExpStat;
 import mindustry.entities.bullet.BulletType;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
 
 public class AccelTurret extends ItemTurret {
     public float speedUpPerShoot = 2;
@@ -29,9 +32,14 @@ public class AccelTurret extends ItemTurret {
                 )
         );
     }
+
     @Override
-    public void init(){
-        super.init();
+    public void setStats(){
+        super.setStats();
+        stats.remove(Stat.reload);
+
+        stats.add(ExpStat.reloadFrom, reload/60, StatUnit.seconds);
+        stats.add(ExpStat.reloadTo, (reload / (1 + maxAccel))/60, StatUnit.seconds);
     }
 
     public  class AccelTurretBuild extends ItemTurretBuild {
@@ -61,7 +69,7 @@ public class AccelTurret extends ItemTurret {
             }
             else
             {
-                reloadCounter += (1 + speedUp) * edelta() * peekAmmo().reloadMultiplier * baseReloadSpeed() * coolantMultiplier;
+                reloadCounter += (1 + speedUp) * edelta() * baseReloadSpeed() * coolantMultiplier * baseReloadSpeed() * peekAmmo().reloadMultiplier;
             }
         }
         @Override
@@ -70,6 +78,7 @@ public class AccelTurret extends ItemTurret {
             super.shoot(type);
             if (speedUp < maxAccel){
                 speedUp += speedUpPerShoot * edelta();
+                if(speedUp>maxAccel) speedUp = maxAccel;
             }else {
                 speedUp = maxAccel;
             }
