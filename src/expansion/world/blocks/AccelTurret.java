@@ -41,7 +41,7 @@ public class AccelTurret extends ItemTurret {
             //coolDown progress
             if (!isShooting() || !hasAmmo() || !isActive()){
 
-                if(speedUp>0) {
+                if(speedUp > 0) {
                     speedUp -= delta() * cooldownSpeed;
                 }else {
                     speedUp = 0;

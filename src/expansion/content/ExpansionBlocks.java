@@ -3,6 +3,7 @@ package expansion.content;
 import arc.graphics.Color;
 import arc.math.Interp;
 import expansion.graphic.ExpPal;
+import expansion.world.blocks.BurnCrafter;
 import mindustry.entities.effect.*;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
@@ -57,21 +58,21 @@ public class ExpansionBlocks {
                     baseLength = 2;
                 }};
             }};
-            boiler = new GenericCrafter("solid-boiler"){{
+            boiler = new BurnCrafter("solid-boiler"){{
                 requirements(Category.crafting, ItemStack.with(copper, 55, lead, 35, graphite, 45, metaglass, 25));
                 size = 2;
-                consume(new ConsumeItemFlammable(0.15f));
+                consume(new ConsumeItemFlammable(0.5f));
                 consumeLiquids(new LiquidStack(water, 15/60f));
                 outputLiquid = new LiquidStack(ExpansionLiquids.steam, 30/60f);
                 craftTime = 3 * 60;
-                updateEffectChance = 0.2f;
+                updateEffectChance = 0.3f;
                 updateEffect = new ParticleEffect(){{
-                    particles = 2;
+                    particles = 1;
                     colorFrom = Color.valueOf("0d0d0d");
-                    colorTo = Color.valueOf("2e2e2e00");
+                    colorTo = Color.valueOf("2e2e2e");
                     lifetime = 60;
-                    sizeFrom = 1;
-                    sizeTo = 2;
+                    sizeFrom = 2;
+                    sizeTo = 0;
                     length = 4;
                     cone = 360;
                 }};
