@@ -69,7 +69,7 @@ public class AccelTurret extends ItemTurret {
             }
             else
             {
-                reloadCounter += (1 + speedUp) * edelta() * baseReloadSpeed() * coolantMultiplier * baseReloadSpeed() * peekAmmo().reloadMultiplier;
+                reloadCounter += (1 + speedUp) * edelta() * baseReloadSpeed() * baseReloadSpeed() * peekAmmo().reloadMultiplier  * (coolantMultiplier * liquids.current().heatCapacity);
             }
         }
         @Override
