@@ -20,10 +20,11 @@ public class RegenWall extends Wall {
         super(name);
         update = true;
         canOverdrive = true;
+        conductivePower = true;
     }
     public float regenPerTick = 1;
     public Color regenColor = Color.valueOf("ffffff");
-    public float effectInterval = 3;
+    public float effectInterval = 180;
 
    @Override
     public void setStats(){
@@ -33,12 +34,12 @@ public class RegenWall extends Wall {
 
    public class RegenWallBuild extends WallBuild{
        public float regenSpeed = regenPerTick;
-       private float counter = regenSpeed * 60 * effectInterval;
+       private float counter = regenSpeed * effectInterval;
 
        @Override
        public void updateTile() {
                if (this.health() < maxHealth() && canConsume()) {
-                   if (counter >= regenSpeed * 60 * effectInterval) {
+                   if (counter >= regenSpeed * effectInterval) {
                        Fx.healBlockFull.at(x, y, block.size, regenColor, block);
                        counter = 0;
                    } else {

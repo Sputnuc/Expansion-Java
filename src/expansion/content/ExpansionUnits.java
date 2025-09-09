@@ -2,21 +2,21 @@ package expansion.content;
 
 import arc.graphics.Color;
 import arc.math.geom.Rect;
-import expansion.graphic.ExpPal;
 import mindustry.content.Fx;
-import mindustry.entities.bullet.ArtilleryBulletType;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.*;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
+import mindustry.type.unit.MissileUnitType;
 import mindustry.type.unit.TankUnitType;
 
 import static mindustry.Vars.*;
+import static mindustry.content.Fx.*;
 import static mindustry.content.UnitTypes.*;
 
 public class ExpansionUnits {
@@ -34,6 +34,7 @@ public class ExpansionUnits {
     //additional units
     strife;
     public static void load(){
+        //Tanks
         warrior = new TankUnitType("warrior"){{
             constructor = TankUnit::create;
             outlineColor = Pal.darkerMetal;
@@ -43,7 +44,6 @@ public class ExpansionUnits {
             rotateSpeed = 2;
             range = 175;
             armor = 2;
-            treadPullOffset = 6;
             treadRects = new Rect[]{new Rect(7, -26, 14, 51)};
             weapons.add(new Weapon("expansion-warrior-weapon"){{
                 x = y = 0;
@@ -73,8 +73,9 @@ public class ExpansionUnits {
             health = 595;
             armor = 9;
             range = 125;
-            treadRects = new Rect[]{new Rect(-32, -39, 16, 83)};
-            treadPullOffset= 5;
+            treadRects = new Rect[] {
+                    new Rect(-31f, -39f, 62, 83)
+            };
             weapons.add(
                     new Weapon("expansion-armada-weapon-primal"){{
                         x = 7;
@@ -102,6 +103,7 @@ public class ExpansionUnits {
                 shootCone = 3;
                 range = 125;
                 bullet = new BasicBulletType(8.5f, 28){{
+                    shootEffect = ExpFx.tankSmokeLen;
                     splashDamage = 17;
                     splashDamageRadius = 3 * tilesize;
                     lifetime = 15;
@@ -150,8 +152,9 @@ public class ExpansionUnits {
             constructor = TankUnit::create;
             outlineColor = Pal.darkerMetal;
             speed = 0.4f;
-            treadPullOffset = 5;
-            treadRects = new Rect[]{new Rect(13, -38, 17, 76)};
+            treadRects = new Rect[] {
+                    new Rect(-34f, -51f, 68, 108)
+            };
             rotateSpeed = 0.8f;
             hitSize = 24;
             health = 1300;
@@ -193,7 +196,7 @@ public class ExpansionUnits {
                             splashDamage = 63;
                             splashDamageRadius = 44;
                             shootEffect = Fx.shootBig;
-                            smokeEffect = ExpFx.tankSmoke;
+                            smokeEffect = new MultiEffect( ExpFx.tankSmoke, ExpFx.tankSmokeLen);
                             backColor =  trailColor = Color.valueOf("e59155");
                             frontColor = hitColor = Color.valueOf("fff3eb");
                             despawnEffect = Fx.massiveExplosion;
@@ -201,10 +204,72 @@ public class ExpansionUnits {
                             trailWidth = 2.2f;
                             trailInterval = 1;
                             trailEffect = ExpFx.trailSmoke;
+                            fragBullets = 4;
+                            fragLifeMin = 0.3f;
+                            fragLifeMax = 1.2f;
+                            fragBullet = new BasicBulletType(3,12){{
+                                trailLength = 1;
+                                trailWidth = 0.5f;
+                                width = 8.5f;
+                                height = 8.75f;
+                                lifetime = 25;
+                                backColor = trailColor = Color.valueOf("e59155");
+                                frontColor = hitColor = Color.valueOf("fff3eb");
+                            }};
                         }};
                     }}
             );
         }};
+        chaos = new TankUnitType("chaos"){{
+            constructor = TankUnit::create;
+            treadPullOffset = 8;
+            treadRects = new Rect[] {
+                    new Rect(-58f, -64f, 116, 136)
+            };
+            outlineColor = Pal.darkerMetal;
+            hitSize = 34;
+            outlineRadius = 4;
+            health = 11000;
+            speed = (float) 2.5 * 8 / 60;
+            rotateSpeed = 0.9f;
+            crushDamage = 1.5f;
+            weapons.add(new Weapon("expansion-chaos-weapon"){{
+                x = y = 0;
+                reload = 95;
+                shootY = 16;
+                recoil = 4.5f;
+                rotate = true;
+                mirror = false;
+                shake = 6.5f;
+                rotateSpeed = 0.55f;
+                shootSound = Sounds.mediumCannon;
+                inaccuracy = 5.5f;
+                velocityRnd = 0.15f;
+                shootCone = 3.5f;
+                shoot.shots = 4;
+                shoot.shotDelay = 7f;
+                bullet = new BasicBulletType(14.25f,135){{
+                    pierce = pierceBuilding = true;
+                    pierceCap = 2;
+                    splashDamage = 82;
+                    splashDamageRadius = 3 * tilesize;
+                    lifetime = 17;
+                    sprite = "missile-large";
+                    width = 15.75f;
+                    height = 20.5f;
+                    backColor =  trailColor = Color.valueOf("e59155");
+                    frontColor = hitColor = Color.valueOf("f7dac6");
+                    shootEffect = ExpFx.tankFireShoot;
+                    trailLength = 7;
+                    trailWidth = 3f;
+                    trailInterval = 1;
+                    trailChance = 1;
+                    hitEffect = despawnEffect = Fx.massiveExplosion;
+                }};
+            }});
+        }};
+
+        //Flyers
         sight = new UnitType("sight"){{
             constructor = UnitEntity::create;
             flying = true;
@@ -227,7 +292,7 @@ public class ExpansionUnits {
                 reload = 40;
                 shoot.shots = 4;
                 shoot.shotDelay = 4;
-                bullet = new BasicBulletType(8.25f, 5f){{
+                bullet = new BasicBulletType(8.25f, 7.5f){{
                     width = 7;
                     height = 13;
                     trailWidth = 2;
@@ -254,9 +319,10 @@ public class ExpansionUnits {
                 mirror = true;
                 reload = 45;
                 shoot.shots = 2;
+                shoot.shotDelay = 3;
                 inaccuracy = 5;
                 shootSound = Sounds.missile;
-                velocityRnd = 0.15f;
+                velocityRnd = 0.35f;
                 bullet = new MissileBulletType(5,17){{
                     lifetime = 30;
                     height = width = 9;
@@ -325,6 +391,105 @@ public class ExpansionUnits {
                         }}
             );
         }};
+        storm = new UnitType("storm"){{
+            constructor = UnitEntity::create;
+            flying = true;
+            trailLength = 6;
+            health = 7000;
+            hitSize = 54/2f;
+            armor = 4;
+            rotateSpeed = 2.5f;
+            speed = 2;
+            accel = 0.035f;
+            drag = 0.01f;
+            lowAltitude = true;
+            engineSize = 5f; engineOffset = 80/4f;
+            weapons.add(new Weapon("storm-missile-launcher"){{
+                shootSound = Sounds.missileLarge;
+                x = 54f / 4f;
+                y = -16f / 4f;
+                mirror = true;
+                rotate = false;
+                baseRotation = -45;
+                shootCone = 180;
+                reload = 120;
+                recoil = 0;
+                shoot.shots = 5;
+                shoot.shotDelay = 5;
+                inaccuracy = 5;
+                bullet = new BulletType(){{
+                    smokeEffect = Fx.shootSmokeTitan;
+                    shake = 2f;
+                    speed = 0f;
+                    keepVelocity = false;
+                    collidesAir = false;
+                    spawnUnit = new MissileUnitType("storm-missile"){{
+                        targetAir = false;
+                        lifetime = 45;
+                        rotateSpeed = 3.5f;
+                        speed = 5f;
+                        maxRange = 5f;
+                        outlineColor = Pal.darkerMetal;
+                        health = 25;
+                        homingDelay = 2f;
+                        lowAltitude = true;
+                        engineSize = 1f;
+                        trailLength = 5;
+                        engineLayer = Layer.effect;
+                        weapons.add(new Weapon(){{
+                            shootCone = 360f;
+                            mirror = false;
+                            reload = 1f;
+                            shootOnDeath = true;
+                            bullet = new ExplosionBulletType(75,23f){{
+                                collidesAir = false;
+                            }};
+                        }});
+                    }};
+                }};
+            }},
+             new Weapon("expansion-storm-weapon"){{
+                 x = 0;
+                 y = 0;
+                 reload = 60;
+                 shootSound = Sounds.cannon;
+                 recoil = 2.5f;
+                 cooldownTime = 45;
+                 rotateSpeed = 0.9f;
+                 rotate = true;
+                 mirror = false;
+                 shootY = 10;
+                 bullet = new BasicBulletType(8,40){{
+                     splashDamage = 45;
+                     splashDamageRadius = 3 * tilesize;
+                     bulletInterval = 5;
+                     trailWidth = 2.5f;
+                     trailLength = 12;
+                     width = 13;
+                     height = 19;
+                     lifetime = 30;
+                     frontColor = hitColor = Color.valueOf("f5ec9f");
+                     backColor = trailColor = Color.valueOf("ebde6a");
+                     trailEffect = ExpFx.impulseTrail;
+                     despawnEffect = hitEffect = ExpFx.impulseExplosion;
+                     trailInterval = 2;
+                     lightning = 6;
+                     lightningLength = 19;
+                     lightningDamage = 22;
+                     lightningColor = Color.valueOf("f5ec9f");
+                     intervalBullet = new LightningBulletType(){{
+                         lightningColor = Color.valueOf("f5ec9f");
+                         damage = 45;
+                         lightningLength = 16;
+                         lifetime = 7;
+                         inaccuracy = 360;
+                     }};
+                 }};
+             }}
+            );
+        }};
+
+        //Navalers
         dew = new UnitType("dew"){{
             constructor = UnitWaterMove::create;
             rotateSpeed = 3.5f;
@@ -407,6 +572,50 @@ public class ExpansionUnits {
                             despawnEffect = hitEffect = new MultiEffect(Fx.hitBulletBig, Fx.hitBulletSmall);
                         }};
                     }}
+            );
+        }};
+        pressure = new UnitType("pressure"){{
+            constructor = UnitWaterMove::create;
+            rotateSpeed = 1.45f;
+            hitSize = 24;
+            speed = 0.8f;
+            health = bryde.health + 100;
+            accel = 0.5f;
+            weapons.add(new Weapon("expansion-pressure-mount-weapon"){{
+                x = -8.25f; y = -7;
+                reload = 6;
+                rotateSpeed = 1.5f;
+                shootSound = Sounds.shootBig;
+                mirror = rotate = true;
+                shake = 2;
+                inaccuracy = 4;
+                bullet = new BasicBulletType(3.5f, 15){{
+                    lifetime = 55;
+                    width = 14; height = 15;
+                }};
+            }},
+            new Weapon("expansion-pressure-main-weapon"){{
+                x = 0; y = 4;
+                reload = 60;
+                rotateSpeed = 1.2f;
+                shootSound = Sounds.plasmaboom;
+                mirror = false;
+                rotate = true;
+                shake = 4;
+                shoot.shots = 5;
+                inaccuracy = 6;
+                bullet = new BasicBulletType(8, 65){{
+                    lifetime = 32;
+                    width = 12; height = 13.5f;
+                    pierce = pierceBuilding = true;
+                    pierceCap = 2;
+                    trailWidth = 2;
+                    trailLength = 10;
+                    trailColor = Color.valueOf("f5db84");
+                    weaveScale = 4; weaveMag = 2;
+                    despawnEffect = hitEffect = ExpFx.yellowPlasmaExplosion;
+                }};
+            }}
             );
         }};
     }

@@ -48,5 +48,8 @@ public class ExpansionItems {
                 cost = 5;
                 hardness = 4;
             }};
+            serpuloItems.addAll(tebriy, tebriyAlloy, siliconAlloy, cobalt, carbon, wood);
+            erekirItems.addAll(calcite, nickel);
         }
+
 }

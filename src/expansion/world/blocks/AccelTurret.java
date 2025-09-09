@@ -36,10 +36,7 @@ public class AccelTurret extends ItemTurret {
     @Override
     public void setStats(){
         super.setStats();
-        stats.remove(Stat.reload);
-
-        stats.add(ExpStat.reloadFrom, reload/60, StatUnit.seconds);
-        stats.add(ExpStat.reloadTo, (reload / (1 + maxAccel))/60, StatUnit.seconds);
+        stats.add(ExpStat.reloadMultiplier, maxAccel, StatUnit.multiplier);
     }
 
     public  class AccelTurretBuild extends ItemTurretBuild {
@@ -69,7 +66,7 @@ public class AccelTurret extends ItemTurret {
             }
             else
             {
-                reloadCounter += (1 + speedUp) * edelta() * baseReloadSpeed() * baseReloadSpeed() * peekAmmo().reloadMultiplier  * (coolantMultiplier * liquids.current().heatCapacity);
+                reloadCounter += (1 + speedUp) * edelta() * baseReloadSpeed() * baseReloadSpeed() * peekAmmo().reloadMultiplier;
             }
         }
         @Override

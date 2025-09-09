@@ -50,5 +50,4 @@ public class GeneratorCore extends CoreBlock {
         }
 
     }
-
 }
