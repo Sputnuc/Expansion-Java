@@ -3,6 +3,6 @@ name: "expansion"
 author: "Sputnuc"
 main: "expansion.ExpansionMain"
 description: "Recreation of my first mod"
-version: 0.1
-minGameVersion: 149
-java: true
+version: "0.1"
+minGameVersion: "150"
+java: "true"
