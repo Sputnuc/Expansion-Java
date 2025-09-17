@@ -19,31 +19,27 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.turrets.LiquidTurret;
 import mindustry.world.blocks.power.ConsumeGenerator;
+import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.consumers.ConsumeItemExplode;
-import mindustry.world.consumers.ConsumeItemExplosive;
 import mindustry.world.consumers.ConsumeItemFlammable;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BlockFlag;
 
 import static expansion.content.ExpFx.*;
 import static expansion.content.ExpansionItems.*;
-import static mindustry.content.Blocks.*;
-import static mindustry.content.Fx.*;
 import static mindustry.content.Fx.none;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
-import static mindustry.content.StatusEffects.*;
 import static mindustry.type.ItemStack.with;
 
 public class ExpansionBlocks {
         public static Block
         //production
-
+                steamDrill,
         //crafting
                tebriySynthezer, hydraulicGraphitePress, tebriyAlloySmelter, tebriyAlloyForge, boiler, siliconAlloyFurnace, siliconAlloyOven,
        //power
@@ -53,8 +49,17 @@ public class ExpansionBlocks {
         //walls
                 tebriyWall, tebriyWallLarge, cobaltWall, cobaltWallLarge,
         //unit blocks
-                baseFactory, upgradeReconstructor, improvingReconstructor, advancedReconstructor, quantumReconstructor;
+                baseFactory, upgradeReconstructor, improvingReconstructor, progressiveReconstructor, quantumReconstructor;
         public static void load() {
+            //production
+            steamDrill = new Drill("steam-drill"){{
+                requirements(Category.production, ItemStack.with(copper, 25, graphite, 35, tebriyAlloy, 55));
+                consumeLiquid(ExpansionLiquids.steam, 0.05f);
+                size = 2;
+                tier = 4;
+                drillTime = 300;
+                liquidBoostIntensity = 1;
+            }};
             //Craft
             tebriySynthezer = new GenericCrafter("tebriy-synthezer"){{
                 requirements(Category.crafting, ItemStack.with(copper, 75, graphite, 65, titanium, 35, silicon, 45));
@@ -228,7 +233,7 @@ public class ExpansionBlocks {
                 size = 3;
                 consumeLiquid(ExpansionLiquids.steam,  15/60f);
                 outputsPower = true;
-                powerProduction = 330f/60f;
+                powerProduction = 390f/60f;
                 liquidCapacity = 60;
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(ExpansionLiquids.steam),new DrawBlurSpin("-rotator", 14) , new DrawDefault());
                 effectChance = 1;
@@ -260,11 +265,14 @@ public class ExpansionBlocks {
                 shake = 2;
                 inaccuracy = 3;
                 shootSound = Sounds.shootBig;
+                consumeCoolant(0.25f);
+                liquidCapacity = 30;
                 ammo(
                         graphite, new BasicBulletType(4f,25f ){{
                             width = 10.5f;
                             height = 11.5f;
                             lifetime = 50;
+                            shootEffect = inclinedWave;
                             frontColor = Pal.graphiteAmmoFront;
                             backColor = hitColor = Pal.graphiteAmmoBack;
                             hitEffect = despawnEffect = Fx.hitBulletColor;
@@ -275,6 +283,7 @@ public class ExpansionBlocks {
                             width = 10;
                             height = 10;
                             lifetime = 25;
+                            shootEffect = inclinedWave;
                             frontColor = Pal.siliconAmmoFront;
                             backColor = hitColor = trailColor = Pal.siliconAmmoBack;
                             hitEffect = despawnEffect = Fx.hitBulletColor;
@@ -289,6 +298,7 @@ public class ExpansionBlocks {
                             width = 10;
                             height = 10;
                             lifetime = 16;
+                            shootEffect = inclinedWave;
                             frontColor = ExpPal.silAlloyPal;
                             backColor = hitColor = trailColor = Color.valueOf("8f8571");
                             hitEffect = despawnEffect = Fx.hitBulletColor;
@@ -304,6 +314,7 @@ public class ExpansionBlocks {
                             width = 12;
                             height = 15;
                             lifetime = 26;
+                            shootEffect = inclinedWave;
                             frontColor = ExpPal.cobaltPal;
                             backColor = hitColor = trailColor = Color.valueOf("485596");
                             hitEffect = despawnEffect = Fx.hitBulletColor;

@@ -9,7 +9,7 @@ public class ExpStat {
         regenerationPerTick = new Stat("expansion-regenPerTick", StatCat.function),
         canCounters = new Stat("expansion-can-counters", StatCat.function),
         reloadFrom = new Stat("expansion-reload-at-start", Stat.reload.category),
-        reloadMultiplier = new Stat("expansion-reload-at-end", Stat.reload.category),
+        reloadTo = new Stat("expansion-reload-at-end", Stat.reload.category),
         counterWallCooldown = new Stat("expansion-counter-wall-cooldown", StatCat.function),
         overrides = new Stat("expansion-overrides"),
         counterWallCooldownOnDestroy = new Stat("expansion-counter-wall-cooldown-on-destroy", StatCat.function);

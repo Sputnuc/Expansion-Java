@@ -40,7 +40,7 @@ public class ExpansionUnits {
             outlineColor = Pal.darkerMetal;
             hitSize = 10;
             speed = 0.75f;
-            health  = 230;
+            health  = 270;
             rotateSpeed = 2;
             range = 175;
             armor = 2;
@@ -70,7 +70,7 @@ public class ExpansionUnits {
             hitSize = 18;
             speed = 0.55f;
             rotateSpeed = 0.8f;
-            health = 595;
+            health = 645;
             armor = 9;
             range = 125;
             treadRects = new Rect[] {
@@ -157,7 +157,7 @@ public class ExpansionUnits {
             };
             rotateSpeed = 0.8f;
             hitSize = 24;
-            health = 1300;
+            health = 1350;
             armor = 14;
             weapons.add(new Weapon("expansion-flame-weapon-primal"){{
                             x = 8;
@@ -246,12 +246,13 @@ public class ExpansionUnits {
                 inaccuracy = 5.5f;
                 velocityRnd = 0.15f;
                 shootCone = 3.5f;
-                shoot.shots = 4;
+                shoot.shots = 5;
                 shoot.shotDelay = 7f;
-                bullet = new BasicBulletType(14.25f,135){{
+                bullet = new BasicBulletType(14.25f,125){{
                     pierce = pierceBuilding = true;
                     pierceCap = 2;
-                    splashDamage = 82;
+                    splashDamage = 99;
+                    scaleLife = true;
                     splashDamageRadius = 3 * tilesize;
                     lifetime = 17;
                     sprite = "missile-large";
@@ -317,13 +318,13 @@ public class ExpansionUnits {
                 y = 0;
                 rotate = false;
                 mirror = true;
-                reload = 45;
+                reload = 55;
                 shoot.shots = 2;
                 shoot.shotDelay = 3;
                 inaccuracy = 5;
                 shootSound = Sounds.missile;
                 velocityRnd = 0.35f;
-                bullet = new MissileBulletType(5,17){{
+                bullet = new MissileBulletType(5,12){{
                     lifetime = 30;
                     height = width = 9;
                     splashDamage = 12;
@@ -414,7 +415,7 @@ public class ExpansionUnits {
                 shootCone = 180;
                 reload = 120;
                 recoil = 0;
-                shoot.shots = 5;
+                shoot.shots = 7;
                 shoot.shotDelay = 5;
                 inaccuracy = 5;
                 bullet = new BulletType(){{
@@ -441,7 +442,7 @@ public class ExpansionUnits {
                             mirror = false;
                             reload = 1f;
                             shootOnDeath = true;
-                            bullet = new ExplosionBulletType(75,23f){{
+                            bullet = new ExplosionBulletType(95,23f){{
                                 collidesAir = false;
                             }};
                         }});
@@ -498,33 +499,51 @@ public class ExpansionUnits {
             health = 255;
             weapons.add(
                     new Weapon("expansion-dew-weapon"){{
-                x = -4.5f;
-                y = -3.5f;
-                reload = 10f;
+                x = 4f;
+                y = -1f;
+                reload = 20f;
                 rotateSpeed = 1.7f;
                 inaccuracy = 1.5f;
                 mirror = true;
-                shootSound = Sounds.pew;
+                shootSound = Sounds.bolt;
                 rotate = true;
-                bullet = new BasicBulletType(3.5f, 8){{
-                    width = height = 10;
-                    lifetime = 40;
+                bullet = new LaserBulletType(12){{
+                    sideWidth = 3;
+                    sideLength = 8;
+                    width = 2.4f;
+                    length = 20 * 8;
+                    pierce = false;
+                    pierceBuilding = false;
+                    pierceCap = 1;
+                    shootEffect = sparkShoot;
+                    colors = new Color[]{Pal.bulletYellow, Pal.bulletYellow, Color.white};
+                    lifetime = 10;
                 }};
             }},
                     new Weapon("expansion-dew-weapon2"){{
                         x = 0;
-                        y = 2.25f;
-                        reload = 65;
+                        y = -10f / 4f;
+                        reload = 35;
                         rotateSpeed = 1.5f;
                         mirror = false;
-                        shootSound = Sounds.bang;
-                        shake = 2.5f;
+                        shootSound = Sounds.missile;
                         rotate = true;
-                        bullet = new BasicBulletType(8, 25f){{
-                            width = height = 12;
-                            trailWidth = 1.5f;
-                            trailLength = 5;
-                            lifetime = 24;
+                        bullet = new MissileBulletType(4, 12f){{
+                            keepVelocity = true;
+                            width = 8f;
+                            height = 8f;
+                            shrinkY = 0f;
+                            homingRange = 60f;
+                            splashDamageRadius = 25f;
+                            splashDamage = 10f;
+                            lifetime = 45f;
+                            trailColor = Color.gray;
+                            backColor = Pal.bulletYellowBack;
+                            frontColor = Pal.bulletYellow;
+                            hitEffect = Fx.blastExplosion;
+                            despawnEffect = Fx.blastExplosion;
+                            weaveScale = 8f;
+                            weaveMag = 2f;
                         }};
                     }}
             );
@@ -582,7 +601,7 @@ public class ExpansionUnits {
             health = bryde.health + 100;
             accel = 0.5f;
             weapons.add(new Weapon("expansion-pressure-mount-weapon"){{
-                x = -8.25f; y = -7;
+                x = -41f / 4f; y = -32f / 4f;
                 reload = 6;
                 rotateSpeed = 1.5f;
                 shootSound = Sounds.shootBig;
@@ -595,7 +614,7 @@ public class ExpansionUnits {
                 }};
             }},
             new Weapon("expansion-pressure-main-weapon"){{
-                x = 0; y = 4;
+                x = 0; y = -2;
                 reload = 60;
                 rotateSpeed = 1.2f;
                 shootSound = Sounds.plasmaboom;

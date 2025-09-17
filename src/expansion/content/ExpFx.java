@@ -21,8 +21,15 @@ import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
 
 public class ExpFx {
+    public static float sin(float rotation, float offset){
+        float angleRad = rotation * Mathf.degRad;
+        return Mathf.sin(angleRad) * offset;
+    }
+    public static float cos(float rotation, float offset){
+        float angleRad = rotation * Mathf.degRad;
+        return Mathf.cos(angleRad) * offset;
+    }
     public static final Rand rand = new Rand();
-
     public static final Effect
         trailSmoke = new ParticleEffect() {{
         particles = 2;
@@ -161,6 +168,19 @@ public class ExpFx {
                 randLenVectors(e.id, 3, 3f + e.fin() * 1.25f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, e.fout() * 2f);
                 });
+            }),
+            inclinedWave = new Effect(25, 80, e->{
+                Draw.color(e.color, e.color.a(0), e.fin());
+                stroke(e.fout()*1.2f + 0.5f);
+                float baseOffset = 2f;
+                float forwardOffset = e.fin() * -1f;
+
+                float offsetX = cos(e.rotation, baseOffset);
+                float offsetY = sin(e.rotation, baseOffset);
+                float oX = cos(e.rotation, forwardOffset);
+                float oY = sin(e.rotation, forwardOffset);
+
+                Lines.ellipse(e.x + offsetX + oX, e.y + offsetY + oY, 0.65f * e.fin()+ 0.45f, 4, 8, e.rotation);
             });
 
 }

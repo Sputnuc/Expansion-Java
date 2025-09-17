@@ -9,8 +9,11 @@ import mindustry.entities.bullet.BulletType;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.consumers.ConsumeLiquidFilter;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
+
+import static mindustry.Vars.tilesize;
 
 public class AccelTurret extends ItemTurret {
     public float speedUpPerShoot = 2;
@@ -36,11 +39,14 @@ public class AccelTurret extends ItemTurret {
     @Override
     public void setStats(){
         super.setStats();
-        stats.add(ExpStat.reloadMultiplier, maxAccel, StatUnit.multiplier);
+        stats.remove(Stat.reload);
+        stats.add(ExpStat.reloadFrom, reload / 60f, StatUnit.seconds);
+        stats.add(ExpStat.reloadTo, (reload / (maxAccel + 1.0f)) / 60f, StatUnit.seconds);
     }
 
     public  class AccelTurretBuild extends ItemTurretBuild {
-        public float speedUp = 0;
+        protected float speedUp = 0;
+        protected float coolantSpeedMultiplier;
         @Override
         public void updateTile() {
             //coolDown progress
@@ -55,6 +61,18 @@ public class AccelTurret extends ItemTurret {
             super.updateTile();
         }
         @Override
+        protected void updateCooling(){
+            if(coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){
+                float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);
+                float amount = coolant.amount * coolant.efficiency(this);
+                coolant.update(this);
+                coolantSpeedMultiplier = amount * capacity * coolantMultiplier * ammoReloadMultiplier();
+                if(Mathf.chance(0.06 * amount)){
+                    coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));
+                }
+            }
+        }
+        @Override
         public void updateShooting(){
             //override shooting method
             if (reloadCounter >= reload) {
@@ -66,7 +84,7 @@ public class AccelTurret extends ItemTurret {
             }
             else
             {
-                reloadCounter += (1 + speedUp) * edelta() * baseReloadSpeed() * baseReloadSpeed() * peekAmmo().reloadMultiplier;
+                reloadCounter += (1 + speedUp) * edelta() * baseReloadSpeed();
             }
         }
         @Override
@@ -75,6 +93,7 @@ public class AccelTurret extends ItemTurret {
             super.shoot(type);
             if (speedUp < maxAccel){
                 speedUp += speedUpPerShoot * edelta();
+                speedUp += coolantSpeedMultiplier;
                 if(speedUp>maxAccel) speedUp = maxAccel;
             }else {
                 speedUp = maxAccel;

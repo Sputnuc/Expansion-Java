@@ -48,8 +48,10 @@ public class ExpansionTT {
             node(warrior, ()->{
                 //Fly tree
                 node(sight, ()->{
-                    node(sunset, Seq.with(new Research(improvingReconstructor)), ()->{
-                        node(storm);
+                    node(glare, () ->{
+                        node(sunset, Seq.with(new Research(improvingReconstructor)), ()->{
+                            node(storm);
+                        });
                     });
                 });
                 //Naval tree
