@@ -181,6 +181,122 @@ public class ExpFx {
                 float oY = sin(e.rotation, forwardOffset);
 
                 Lines.ellipse(e.x + offsetX + oX, e.y + offsetY + oY, 0.65f * e.fin()+ 0.45f, 4, 8, e.rotation);
-            });
+            }),
+            hitBigBulletColor = new Effect(14, e -> {
+                color(Color.white, e.color, e.fin());
 
+                e.scaled(7f, s -> {
+                    stroke(0.7f + s.fout());
+                    Lines.circle(e.x, e.y, s.fin() * 20f);
+                });
+
+                stroke(0.5f + e.fout());
+
+                randLenVectors(e.id, 8, e.fin() * 25f, (x, y) -> {
+                    float ang = Mathf.angle(x, y);
+                    lineAngle(e.x + x, e.y + y, ang, e.fout() * 3 + 1f);
+                });
+                randLenVectors(e.id, 8, e.fin(Interp.circleOut) * 65f, e.rotation, 160, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 2f);
+                });
+
+                Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
+            }),
+            hitBigFire = new Effect( 35, e -> {
+                color(Pal.lightishOrange, Pal.lightOrange, e.fin());
+                stroke(1.4f * e.fout() + 0.5f);
+                Lines.circle(e.x, e.y, 25 * e.fin(Interp.circleOut));
+                randLenVectors(e.id, 7, e.fin(Interp.circleOut) * 65, e.rotation, 360, (x,y) ->{
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 2f);
+                });
+                randLenVectors(e.id+1, 6, e.fin(Interp.circleOut) * 35, e.rotation, 360, (x,y) ->{
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 3f);
+                });
+                randLenVectors(e.id+2, 4, e.fin() * 25f, (x, y) -> {
+                    float ang = Mathf.angle(x, y);
+                    lineAngle(e.x + x, e.y + y, ang, e.fout() * 3.5f + 2f);
+                });
+            }),
+            bitRailTrailColor = new Effect(30, e -> {
+                for(int i = 0; i < 2; i++){
+                    color(i == 0 ? e.color : Color.white);
+
+                    float m = i == 0 ? 1f : 0.65f;
+
+                    float rot = e.rotation + 180f;
+                    float w = 18f * e.fout() * m;
+                    Drawf.tri(e.x, e.y, w, (30f + Mathf.randomSeedRange(e.id, 15f)) * m, rot);
+                    Drawf.tri(e.x, e.y, w, 10f * m, rot + 180f);
+                }
+
+                Drawf.light(e.x, e.y, 60f, e.color, 0.6f * e.fout());
+            }),
+            bitRailTrailCobalt = new Effect(30, e -> {
+                for(int i = 0; i < 2; i++){
+                    color(i == 0 ? ExpPal.cobaltPal : Color.white);
+
+                    float m = i == 0 ? 1f : 0.65f;
+
+                    float rot = e.rotation + 180f;
+                    float w = 18f * e.fout() * m;
+                    Drawf.tri(e.x, e.y, w, (30f + Mathf.randomSeedRange(e.id, 15f)) * m, rot);
+                    Drawf.tri(e.x, e.y, w, 10f * m, rot + 180f);
+                }
+
+                Drawf.light(e.x, e.y, 60f, ExpPal.cobaltPal, 0.6f * e.fout());
+            }),
+            instBigShootColor = new Effect(24f, e -> {
+                e.scaled(10f, b -> {
+                    color(Color.white, e.color, b.fin());
+                    stroke(b.fout() * 3f + 0.2f);
+                    Lines.circle(b.x, b.y, b.fin() * 55f);
+                    Lines.circle(b.x, b.y, b.fin() * 85f + 5f);
+                });
+
+                color(e.color);
+
+                for(int i : Mathf.signs){
+                    Drawf.tri(e.x, e.y, 15f * e.fout(), 95f, e.rotation + 90f * i);
+                    Drawf.tri(e.x, e.y, 15f * e.fout(), 60f, e.rotation + 20f * i);
+                }
+
+                Drawf.light(e.x, e.y, 210f, e.color, 0.9f * e.fout());
+            }),
+
+    instBigHitColor = new Effect(20f, 200f, e -> {
+        color(e.color);
+
+        for(int i = 0; i < 2; i++){
+            color(i == 0 ? e.color : Color.white);
+
+            float m = i == 0 ? 1f : 0.8f;
+
+            for(int j = 0; j < 5; j++){
+                float rot = e.rotation + Mathf.randomSeedRange(e.id + j, 50f);
+                float w = 23f * e.fout() * m;
+                Drawf.tri(e.x, e.y, w, (80f + Mathf.randomSeedRange(e.id + j, 40f)) * m, rot);
+                Drawf.tri(e.x, e.y, w, 20f * m, rot + 180f);
+            }
+        }
+
+        e.scaled(10f, c -> {
+            color(Color.white);
+            stroke(c.fout() * 4f + 0.25f);
+            Lines.circle(e.x, e.y, c.fin() * 37f);
+        });
+
+        e.scaled(12f, c -> {
+            color(e.color);
+            randLenVectors(e.id, 28, 5f + e.fin() * 90f, e.rotation, 80f, (x, y) -> {
+                Fill.square(e.x + x, e.y + y, c.fout() * 4f, 45f);
+            });
+        });
+    }),
+            railHitColor = new Effect(18f, 200f, e -> {
+                color(e.color);
+
+                for(int i : Mathf.signs){
+                    Drawf.tri(e.x, e.y, 18f * e.fout(), 90f, e.rotation + 140f * i);
+                }
+            });
 }

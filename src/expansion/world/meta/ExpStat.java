@@ -12,5 +12,6 @@ public class ExpStat {
         reloadTo = new Stat("expansion-reload-at-end", Stat.reload.category),
         counterWallCooldown = new Stat("expansion-counter-wall-cooldown", StatCat.function),
         overrides = new Stat("expansion-overrides"),
+        produceChance = new Stat("expansion-result-chance", StatCat.function),
         counterWallCooldownOnDestroy = new Stat("expansion-counter-wall-cooldown-on-destroy", StatCat.function);
 }

@@ -3,6 +3,7 @@ package expansion.content;
 import arc.graphics.Color;
 import arc.math.geom.Rect;
 import mindustry.content.Fx;
+import mindustry.entities.abilities.ShieldRegenFieldAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
@@ -223,6 +224,7 @@ public class ExpansionUnits {
         chaos = new TankUnitType("chaos"){{
             constructor = TankUnit::create;
             treadPullOffset = 8;
+            abilities.add(new ShieldRegenFieldAbility(50f, 300f, 60f * 2.5f, 40f));
             treadRects = new Rect[] {
                     new Rect(-58f, -64f, 116, 136)
             };
@@ -497,6 +499,7 @@ public class ExpansionUnits {
             hitSize = 11;
             speed = 1.2f;
             health = 255;
+            armor = risso.armor;
             weapons.add(
                     new Weapon("expansion-dew-weapon"){{
                 x = 4f;
@@ -554,6 +557,7 @@ public class ExpansionUnits {
             hitSize = 16;
             speed = 0.7f;
             health = minke.health+70;
+            armor = minke.armor;
             range = 180;
             weapons.add(new Weapon("expansion-deep-weapons-primal"){{
                 x = -5;
@@ -598,6 +602,7 @@ public class ExpansionUnits {
             rotateSpeed = 1.45f;
             hitSize = 24;
             speed = 0.8f;
+            armor = 6;
             health = bryde.health + 100;
             accel = 0.5f;
             weapons.add(new Weapon("expansion-pressure-mount-weapon"){{
@@ -636,6 +641,55 @@ public class ExpansionUnits {
                 }};
             }}
             );
+        }};
+        aurora = new UnitType("aurora"){{
+            constructor = UnitWaterMove::create;
+            rotateSpeed = 1.45f;
+            speed = 3f * 8f / 60f;
+            armor = 14;
+            hitSize = 28;
+            health = 12000;
+            weapons.add(new Weapon("expansion-aurora-mount-weapon"){{
+                x = 58/4f; y = 17/4f;
+                mirror = rotate = true;
+                shake = 5;
+                rotateSpeed = 1.6f;
+                reload = 40;
+                inaccuracy = 11;
+                shoot.shots = 3;
+                velocityRnd = 0.1f;
+                shootSound = Sounds.artillery;
+                rotateSpeed = 1.4f;
+                bullet = new BasicBulletType(4, 45){{
+                    splashDamage = 65f;
+                    splashDamageRadius = 3.6f * tilesize;
+                    width = 13; height = 15;
+                    trailLength = 2;
+                    despawnShake = 1.2f;
+                    lifetime = 55;
+                    trailWidth = 1.1f;
+                    frontColor = Pal.bulletYellow; backColor = trailColor = Pal.bulletYellowBack;
+                    despawnEffect = hitEffect = blastExplosion;
+                    despawnSound = Sounds.explosion;
+                    scaleLife = true;
+                }};
+            }},
+             new Weapon("expansion-aurora-beam-weapon"){{
+                 x = 0; y = -5;
+                 shootY = 15;
+                 mirror = false;
+                 rotate = true;
+                 rotateSpeed = 1.1f;
+                 continuous = true;
+                 reload = 270;
+                 cooldownTime = 270;
+                 shootSound = Sounds.beam;
+                 bullet = new ContinuousLaserBulletType(42){{
+                     length = 20 * tilesize;
+                     width = 8;
+                     lifetime = 300;
+                 }};
+             }});
         }};
     }
 }

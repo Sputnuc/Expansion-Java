@@ -67,7 +67,9 @@ public class BurnCrafter extends GenericCrafter {
         public float efficiencyScale() {
             if (filterItem != null) {
                 float itemEffM = filterItem.efficiencyMultiplier(this);
-                if (itemEffM > 0) return(itemEffM);
+                if (itemEffM > 0) {
+                    return(itemEffM);
+                }
             }
             return (1f);
         }

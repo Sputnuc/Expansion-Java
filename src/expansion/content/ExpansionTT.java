@@ -18,52 +18,65 @@ import static mindustry.content.Items.*;
 public class ExpansionTT {
     static TechTree.TechNode context = null;
     public static void load(){
+        //Turrets
         vanillaNode(salvo, () -> {
             node(collapseTurret);
         });
+        vanillaNode(tsunami, ()->node(flood));
         vanillaNode(scorch, () ->{
             node(incandescence);
         });
+        vanillaNode(spectre, ()->{
+            node(retribution, Seq.with(new Research(collapseTurret)));
+        });
+        vanillaNode(combustionGenerator, ()-> node(combustionPowerPlant));
         vanillaNode(steamGenerator, () -> {
             node(boiler);
             node(steamTurbine, Seq.with(new Research(boiler)));
         });
         vanillaNode(siliconSmelter, ()-> {
-            node(tebriyAlloySmelter);
+            node(tebriyAlloySmelter, ()->{
+                node(tebriyAlloyForge);
+            });
             node(tebriySynthezer, Seq.with(new Research(tebriyAlloySmelter)));
         });
         vanillaNode(tebriyAlloySmelter, ()->{
             node(siliconAlloyFurnace, ()->{
                 node(siliconAlloyOven);
+                node(collider);
             });
         });
         //Unit blocks
         vanillaNode(groundFactory, ()->{
             node(baseFactory, ()->{
                 node(upgradeReconstructor, () ->{
-                    node(improvingReconstructor);
+                    node(improvingReconstructor, ()->{
+                        node(progressiveReconstructor);
+                    });
                 });
-            });
-            //Units
-            node(warrior, ()->{
-                //Fly tree
-                node(sight, ()->{
-                    node(glare, () ->{
-                        node(sunset, Seq.with(new Research(improvingReconstructor)), ()->{
-                            node(storm);
+                //Units
+                node(warrior, ()->{
+                    //Fly tree
+                    node(sight, ()->{
+                        node(glare, () ->{
+                            node(sunset, Seq.with(new Research(improvingReconstructor)), ()->{
+                                node(storm, Seq.with(new Research(progressiveReconstructor)));
+                            });
                         });
                     });
-                });
-                //Naval tree
-                node(dew, ()->{
-                    node(deep, ()->{
-                        node(pressure, Seq.with(new Research(improvingReconstructor)));
+                    //Naval tree
+                    node(dew, ()->{
+                        node(deep, ()->{
+                            node(pressure, Seq.with(new Research(improvingReconstructor)), ()->{
+                                node(aurora, Seq.with(new Research(progressiveReconstructor)));
+                            });
+                        });
                     });
-                });
-                //Tank tree
-                node(armada, Seq.with(new Research(upgradeReconstructor)), ()->{
-                    node(flame, Seq.with(new Research(improvingReconstructor)), ()->{
-                        node(chaos);
+                    //Tank tree
+                    node(armada, Seq.with(new Research(upgradeReconstructor)), ()->{
+                        node(flame, Seq.with(new Research(improvingReconstructor)), ()->{
+                            node(chaos, Seq.with(new Research(progressiveReconstructor)));
+                        });
                     });
                 });
             });
