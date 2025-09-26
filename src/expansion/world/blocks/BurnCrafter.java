@@ -37,11 +37,22 @@ public class BurnCrafter extends GenericCrafter {
     @Override
     public void setBars(){
         super.setBars();
-        if(explodeOnFull) addBar("expPressure", (BurnCrafterBuild entity) -> new Bar(
-                () -> Core.bundle.format("bar.expPressure",  Strings.autoFixed(entity.pressure/maxPressure*100, 0)),
-                () -> Pal.redSpark,
-                () -> entity.pressure/maxPressure
-        ));
+        if(explodeOnFull){
+            addBar("expPressure", entity -> {
+                if(entity instanceof BurnCrafterBuild build){
+                    return new Bar(
+                            () -> Core.bundle.format(
+                                    "bar.expPressure",
+                                    Strings.autoFixed(build.pressure / maxPressure * 100, 0)
+                            ),
+                            () -> Pal.redSpark,
+                            () -> build.pressure / maxPressure
+                    );
+                }
+                // fallback, если вдруг подсунули "adapter"
+                return new Bar(() -> "?", () -> Pal.gray, () -> 0f);
+            });
+        }
     }
 
     public boolean explodeOnFull = false;

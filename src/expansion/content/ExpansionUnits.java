@@ -232,6 +232,7 @@ public class ExpansionUnits {
             hitSize = 34;
             outlineRadius = 4;
             health = 11000;
+            armor = scepter.armor + 6;
             speed = (float) 2.5 * 8 / 60;
             rotateSpeed = 0.9f;
             crushDamage = 1.5f;
@@ -271,7 +272,42 @@ public class ExpansionUnits {
                 }};
             }});
         }};
-
+        war = new TankUnitType("war"){{
+            constructor = TankUnit::create;
+            outlineColor = Pal.darkerMetal;
+            hitSize = 40;
+            outlineRadius = 4;
+            health = 26000;
+            armor = reign.armor + 9;
+            speed = (float) 1.7 * 8 / 60;
+            rotateSpeed = 0.6f;
+            crushDamage = 3.5f;
+            weapons.add(new Weapon("expansion-war-weapon"){{
+                x = 0; y = -15/4f;
+                mirror = false;
+                rotate = true;
+                rotateSpeed = 0.45f;
+                reload = 240;
+                shake = 8;
+                shootSound = Sounds.railgun;
+                inaccuracy = 0;
+                shootCone = 1;
+                recoil = 6;
+                cooldownTime = 350;
+                bullet = new RailBulletType(){{
+                    shootEffect = Fx.railShoot;
+                    length = 50*8;
+                    pointEffectSpace = 35f;
+                    pierceEffect = Fx.railHit;
+                    pointEffect = Fx.railTrail;
+                    hitEffect = massiveExplosion;
+                    smokeEffect = Fx.shootBig2;
+                    despawnEffect = Fx.instBomb;
+                    damage = 1650;
+                    pierceDamageFactor = 0.35f;
+                }};
+            }});
+        }};
         //Flyers
         sight = new UnitType("sight"){{
             constructor = UnitEntity::create;
