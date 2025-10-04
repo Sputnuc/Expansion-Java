@@ -11,6 +11,7 @@ import expansion.world.blocks.BurnCrafter;
 import expansion.world.blocks.CounterWall;
 import expansion.world.blocks.ColiderCrafter;
 import mindustry.content.*;
+import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.FlarePart;
@@ -113,7 +114,7 @@ public class ExpansionBlocks {
 
                 consumeItems(with(tebriy, 6, titanium, 9, pyratite, 2));
                 consumePower(180/60f);
-                outputItem = new ItemStack(tebriyAlloy, 9);
+                outputItem = new ItemStack(tebriyAlloy, 12);
                 itemCapacity = 25;
                 craftTime = 90;
 
@@ -140,7 +141,7 @@ public class ExpansionBlocks {
                 }};
             }};
             siliconAlloyFurnace = new GenericCrafter("silicon-alloy-furnace"){{
-                requirements(Category.crafting, ItemStack.with(lead, 85, graphite, 55, silicon, 60, plastanium, 45));
+                requirements(Category.crafting, ItemStack.with(lead, 85, graphite, 55, silicon, 60, thorium, 45));
 
                 consumeItems(ItemStack.with(tebriy, 1, silicon, 2));
                 consumePower(120/60f);
@@ -178,7 +179,7 @@ public class ExpansionBlocks {
                 ambientSound = Sounds.smelter; ambientSoundVolume = 0.09f;
                 itemCapacity = 15;
                 liquidCapacity = 35;
-                outputItem = new ItemStack(siliconAlloy, 7);
+                outputItem = new ItemStack(siliconAlloy, 10);
                 craftTime = 75;
                 craftEffect = new ParticleEffect(){{
                     particles = 9;
@@ -227,13 +228,13 @@ public class ExpansionBlocks {
             collider = new ColiderCrafter("collider"){{
                 requirements(Category.crafting, ItemStack.with(lead, 120, thorium, 70, plastanium, 45, siliconAlloy, 55));
                 size = 3;
-                craftTime = 30;
+                craftTime = 20;
                 produceChance = 0.25f;
-                consumeLiquid(cryofluid, 15/60f);
+                consumeLiquid(cryofluid, 12/60f);
                 liquidCapacity = 20;
                 itemCapacity = 20;
                 consumePower(420/60f);
-                consumeItems(ItemStack.with(titanium, 2, thorium, 1));
+                consumeItems(ItemStack.with(titanium, 1, thorium, 1));
                 outputItem = new ItemStack(cobalt, 2);
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(cryofluid), new DrawPlasma(), new DrawDefault());
             }};
@@ -315,7 +316,7 @@ public class ExpansionBlocks {
                             homingRange = 50;
                             reloadMultiplier = 1.85f;
                         }},
-                        siliconAlloy, new BasicBulletType(12.5f,29 ){{
+                        siliconAlloy, new BasicBulletType(12.5f,31 ){{
                             width = 10;
                             height = 10;
                             lifetime = 16;
@@ -329,7 +330,7 @@ public class ExpansionBlocks {
                             pierce = true;
                             pierceCap = 2;
                         }},
-                        cobalt, new BasicBulletType(7.7f,35f ){{
+                        cobalt, new BasicBulletType(7.7f,37f ){{
                             splashDamage = 19;
                             splashDamageRadius = 16;
                             width = 12;
@@ -361,12 +362,11 @@ public class ExpansionBlocks {
                 cooldownTime = 120;
                 targetAir = false;
                 consumePower(510f / 60f);
-                shoot = new ShootSpread(3, 3);
                 ammo(
                         oil, new BulletType(16, 55){{
                             collidesAir = false;
                             lifetime = 13;
-                            hitSize = 2 * 8;
+                            hitSize = 3 * 8;
                             hitEffect = despawnEffect = none;
                             status = StatusEffects.melting;
                             statusDuration = 5 * 60;
@@ -474,7 +474,7 @@ public class ExpansionBlocks {
                     sizeFrom = 2;
                     sizeTo = 1;
                 }};
-                consumeCoolant(0.75f);
+                consumeCoolant(1.35f);
                 coolantMultiplier = 0.25f;
                 maxOverheatThreshold = 60;
                 overheatTime = 250;
@@ -499,7 +499,7 @@ public class ExpansionBlocks {
                        hitEffect = despawnEffect = hitBigBulletColor;
                        trailLength = 8;
                        trailWidth = 1.5f;
-                       ammoMultiplier = 5;
+                       ammoMultiplier = 4;
                        reloadMultiplier = 1.25f;
                        pierce = true;
                        pierceCap = 2;
@@ -511,22 +511,22 @@ public class ExpansionBlocks {
                             height = 23;
                             lifetime = 40;
                             knockback = 0.75f;
-                            frontColor = hitColor = Pal.thoriumAmmoFront;
-                            backColor = trailColor = Pal.thoriumAmmoBack;
+                            frontColor = Pal.thoriumAmmoFront;
+                            backColor = hitColor = trailColor = Pal.thoriumAmmoBack;
                             hitEffect = despawnEffect = hitBigBulletColor;
                             status = StatusEffects.slow;
                             trailEffect = Fx.colorSpark;
                             trailRotation = true;
-                            trailInterval = 4f;
+                            trailInterval = 4;
                             statusDuration = 30;
                             trailLength = 8;
                             trailWidth = 1.5f;
-                            ammoMultiplier = 4;
+                            ammoMultiplier = 2;
                             pierce = true;
                             pierceCap = 3;
                         }},
                         pyratite, new BasicBulletType(8, 85){{
-                            splashDamage = 126;
+                            splashDamage = 136;
                             splashDamageRadius = 3 * tilesize;
                             scaleLife = true;
                             width = 19;
@@ -540,8 +540,28 @@ public class ExpansionBlocks {
                             statusDuration = 150;
                             trailLength = 8;
                             trailWidth = 1.5f;
-                            ammoMultiplier = 4;
+                            ammoMultiplier = 3;
                             pierce = false;
+                        }},
+                        cobalt, new BasicBulletType(8, 390){{
+                            width = 20;
+                            height = 27;
+                            lifetime = 40;
+                            knockback = 1.85f;
+                            frontColor = hitColor = ExpPal.cobaltPal;
+                            backColor = hitColor = trailColor = Color.valueOf("485596");
+                            hitEffect = despawnEffect = hitBigBulletColor;
+                            trailEffect = Fx.colorSpark;
+                            trailRotation = true;
+                            trailInterval = 4;
+                            trailLength = 10;
+                            trailWidth = 2.5f;
+                            status = StatusEffects.disarmed;
+                            statusDuration = 5;
+                            ammoMultiplier = 3;
+                            reloadMultiplier = 0.25f;
+                            pierce = true;
+                            pierceCap = 5;
                         }}
                 );
             }};
@@ -562,7 +582,7 @@ public class ExpansionBlocks {
                 cooldownTime = reload;
                 coolantMultiplier = 0.2f;
                 scaledHealth = 160;
-
+                unitSort = UnitSorts.strongest;
                 coolant = consumeCoolant(1.5f);
                 consumePower(35f);
 
@@ -594,7 +614,7 @@ public class ExpansionBlocks {
                             pointEffect = bitRailTrailCobalt;
                             hitColor = ExpPal.cobaltPal;
                             pointEffectSpace = 26f;
-                            damage = 1750;
+                            damage = 1950;
                             status = StatusEffects.slow;
                             statusDuration = 300;
                             buildingDamageMultiplier = 0.1f;
@@ -677,6 +697,21 @@ public class ExpansionBlocks {
                         new UnitType[]{ExpansionUnits.flame, ExpansionUnits.chaos},
                         new UnitType[]{ExpansionUnits.sunset, ExpansionUnits.storm},
                         new UnitType[]{ExpansionUnits.pressure, ExpansionUnits.aurora}
+                );
+            }};
+            quantumReassembler = new Reconstructor("quantum-reassembler"){{
+                requirements(Category.units, ItemStack.with(lead, 4450, titanium, 1850,  plastanium, 950, thorium, 750,  phaseFabric, 1220, surgeAlloy, 1000, ExpansionItems.tebriyAlloy, 1650, ExpansionItems.siliconAlloy, 1550, ExpansionItems.cobalt, 750));
+                size = 9;
+                consumePower(1620/60f);
+                consumeItems(with(silicon, 1200, plastanium, 860, siliconAlloy, 750, phaseFabric, 560, siliconAlloy, 500,  cobalt, 450));
+                consumeLiquid(cryofluid, 3.5f);
+
+                constructTime = 250 * 60;
+
+                upgrades.addAll(
+                        new UnitType[]{ExpansionUnits.chaos, ExpansionUnits.war},
+                        new UnitType[]{ExpansionUnits.storm, ExpansionUnits.hurricane},
+                        new UnitType[]{ExpansionUnits.aurora, ExpansionUnits.neptune}
                 );
             }};
         }

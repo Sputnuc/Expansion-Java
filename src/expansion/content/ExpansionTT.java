@@ -49,9 +49,11 @@ public class ExpansionTT {
         //Unit blocks
         vanillaNode(groundFactory, ()->{
             node(baseFactory, ()->{
-                node(upgradeReconstructor, () ->{
-                    node(improvingReconstructor, ()->{
-                        node(progressiveReconstructor);
+                node(upgradeReconstructor, Seq.with(new Research(additiveReconstructor)), () ->{
+                    node(improvingReconstructor, Seq.with(new Research(multiplicativeReconstructor)), ()->{
+                        node(progressiveReconstructor, Seq.with(new Research(exponentialReconstructor)), ()->{
+                            node(quantumReassembler, Seq.with(new Research(tetrativeReconstructor)));
+                        });
                     });
                 });
                 //Units
@@ -60,7 +62,9 @@ public class ExpansionTT {
                     node(sight, ()->{
                         node(glare, () ->{
                             node(sunset, Seq.with(new Research(improvingReconstructor)), ()->{
-                                node(storm, Seq.with(new Research(progressiveReconstructor)));
+                                node(storm, Seq.with(new Research(progressiveReconstructor)), ()->{
+                                    node(hurricane, Seq.with(new Research(quantumReassembler)));
+                                });
                             });
                         });
                     });
@@ -68,14 +72,18 @@ public class ExpansionTT {
                     node(dew, ()->{
                         node(deep, ()->{
                             node(pressure, Seq.with(new Research(improvingReconstructor)), ()->{
-                                node(aurora, Seq.with(new Research(progressiveReconstructor)));
+                                node(aurora, Seq.with(new Research(progressiveReconstructor)), ()->{
+                                    node(neptune, Seq.with(new Research(quantumReassembler)));
+                                });
                             });
                         });
                     });
                     //Tank tree
                     node(armada, Seq.with(new Research(upgradeReconstructor)), ()->{
                         node(flame, Seq.with(new Research(improvingReconstructor)), ()->{
-                            node(chaos, Seq.with(new Research(progressiveReconstructor)));
+                            node(chaos, Seq.with(new Research(progressiveReconstructor)), ()->{
+                                node(war, Seq.with(new Research(quantumReassembler)));
+                            });
                         });
                     });
                 });

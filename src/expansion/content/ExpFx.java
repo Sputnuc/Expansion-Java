@@ -158,7 +158,7 @@ public class ExpFx {
             bigFireShoot = new MultiEffect(
                     new Effect(35, 300,e->{
                         color(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, e.fin());
-                        randLenVectors(e.id, 19, e.finpow() * 16f * 13f * 1.2f, e.rotation, 5f, (x, y) -> {
+                        randLenVectors(e.id, 21, e.finpow() * 16f * 13f * 1.2f, e.rotation, 10f, (x, y) -> {
                             Fill.circle(e.x + x, e.y + y, 0.95f + e.fout(Interp.circleOut) + 0.3f);
                         });
                     })
@@ -186,26 +186,30 @@ public class ExpFx {
                 color(Color.white, e.color, e.fin());
 
                 e.scaled(7f, s -> {
-                    stroke(0.7f + s.fout());
-                    Lines.circle(e.x, e.y, s.fin() * 20f);
+                    stroke(0.9f + s.fout()*2f);
+                    Lines.circle(e.x, e.y, s.fin() * 15f);
                 });
 
                 stroke(0.5f + e.fout());
 
-                randLenVectors(e.id, 8, e.fin() * 25f, (x, y) -> {
+                randLenVectors(e.id, 6, e.fin() * 55f, (x, y) -> {
                     float ang = Mathf.angle(x, y);
-                    lineAngle(e.x + x, e.y + y, ang, e.fout() * 3 + 1f);
+                    lineAngle(e.x + x, e.y + y, ang, e.fout(Interp.circleOut) * 5 + 1f);
                 });
-                randLenVectors(e.id, 8, e.fin(Interp.circleOut) * 65f, e.rotation, 160, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, e.fout() * 2f);
+                randLenVectors(e.id+1, 5, e.fin(Interp.circleOut) * 85f, e.rotation, 20, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 1.25f + 1);
+                });
+                randLenVectors(e.id+2, 5, e.fin(Interp.circleOut) * -35f, e.rotation, 90, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() + 1);
                 });
 
                 Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
             }),
             hitBigFire = new Effect( 35, e -> {
                 color(Pal.lightishOrange, Pal.lightOrange, e.fin());
-                stroke(1.4f * e.fout() + 0.5f);
+                stroke(1.6f * e.fout() + 0.1f);
                 Lines.circle(e.x, e.y, 25 * e.fin(Interp.circleOut));
+
                 randLenVectors(e.id, 7, e.fin(Interp.circleOut) * 65, e.rotation, 360, (x,y) ->{
                     Fill.circle(e.x + x, e.y + y, e.fout() * 2f);
                 });
@@ -298,5 +302,17 @@ public class ExpFx {
                 for(int i : Mathf.signs){
                     Drawf.tri(e.x, e.y, 18f * e.fout(), 90f, e.rotation + 140f * i);
                 }
+            }),
+            bigTrail = new Effect( 30, 40, e->{
+                color(Pal.lancerLaser);
+                randLenVectors(e.id, 1, 9f + e.fin(Interp.circleOut) * 10f, e.rotation, 360f, (x, y) -> {
+                    Fill.square(e.x + x, e.y + y, e.fout() * 4f, 45f);
+                });
+            }),
+            mediumTrail = new Effect( 30, 40, e->{
+                color(Pal.lancerLaser);
+                randLenVectors(e.id, 1, 4f + e.fin(Interp.circleOut) * 6f, e.rotation, 360f, (x, y) -> {
+                    Fill.square(e.x + x, e.y + y, e.fout() * 3f, 45f);
+                });
             });
 }

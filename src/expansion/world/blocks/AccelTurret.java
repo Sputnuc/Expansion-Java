@@ -112,8 +112,10 @@ public class AccelTurret extends ItemTurret {
         protected void updOverheatCooling(){
             if(overheated){
                 if (coolant != null && coolant.efficiency(this) > 0 && efficiency > 0) {
-                    coolant.update(this);
-                    overheatCoolantSpdMultiplier = liquids.current() == null ? 0 : liquids.current().heatCapacity  * coolantMultiplier;
+                    if(canConsume()) {
+                        overheatCoolantSpdMultiplier = liquids.current() == null ? 0 : liquids.current().heatCapacity * coolantMultiplier;
+                        coolant.update(this);
+                    } else  overheatCoolantSpdMultiplier = 0;
                 } else overheatCoolantSpdMultiplier = 0;
             }
         }
@@ -124,7 +126,7 @@ public class AccelTurret extends ItemTurret {
                 float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : (coolant.consumes(liquids.current()) ? liquids.current().heatCapacity : 0.4f);
                 float amount = coolant.amount * coolant.efficiency(this);
                 coolant.update(this);
-                coolantSpeedMultiplier = amount * capacity * coolantMultiplier * ammoReloadMultiplier();
+                coolantSpeedMultiplier = amount * capacity * coolantMultiplier;
                 if(Mathf.chance(0.06 * amount)){
                     coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));
                 }
@@ -165,7 +167,7 @@ public class AccelTurret extends ItemTurret {
             //speedUp per shoot
             super.shoot(type);
             if (speedUp < maxAccel){
-                speedUp += speedUpPerShoot * edelta();
+                speedUp += speedUpPerShoot   * ammoReloadMultiplier() * edelta();
                 speedUp += coolantSpeedMultiplier * delta();
                 if(speedUp>maxAccel) speedUp = maxAccel;
             }else {
