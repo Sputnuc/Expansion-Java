@@ -3,6 +3,7 @@ package expansion.content;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.geom.Rect;
+import mindustry.ai.UnitCommand;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.entities.abilities.ShieldRegenFieldAbility;

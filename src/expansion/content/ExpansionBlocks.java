@@ -62,11 +62,11 @@ public class ExpansionBlocks {
         public static void load() {
             //production
             steamDrill = new Drill("steam-drill"){{
-                requirements(Category.production, ItemStack.with(copper, 25, graphite, 35, tebriyAlloy, 55));
+                requirements(Category.production, ItemStack.with(copper, 25, titanium, 30));
                 consumeLiquid(ExpansionLiquids.steam, 0.05f);
                 size = 2;
                 tier = 4;
-                drillTime = 300;
+                drillTime = 260;
                 liquidBoostIntensity = 1;
             }};
             //Craft
