@@ -40,9 +40,11 @@ import mindustry.world.meta.BlockFlag;
 import static expansion.content.ExpFx.*;
 import static expansion.content.ExpansionItems.*;
 import static mindustry.Vars.tilesize;
+import static mindustry.content.Blocks.*;
 import static mindustry.content.Fx.none;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
+import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
 
 public class ExpansionBlocks {
@@ -71,7 +73,7 @@ public class ExpansionBlocks {
             }};
             //Craft
             tebriySynthezer = new GenericCrafter("tebriy-synthezer"){{
-                requirements(Category.crafting, ItemStack.with(copper, 75, graphite, 65, titanium, 35, silicon, 45));
+                requirements(Category.crafting, ItemStack.with(copper, 75, graphite, 65, titanium, 35));
                 size = 3;
                 consumeItems(with(copper, 4, lead, 3));
                 consumePower(120/60f);
@@ -80,7 +82,7 @@ public class ExpansionBlocks {
             }};
 
             tebriyAlloySmelter = new GenericCrafter("tebriy-alloy-smelter"){{
-                requirements(Category.crafting, ItemStack.with(copper, 95, lead, 55, graphite, 75, titanium, 45));
+                requirements(Category.crafting, ItemStack.with(copper, 95, lead, 55, graphite, 75));
 
                 consumeItems(ItemStack.with(tebriy, 2, titanium, 3));
                 consumePower(96/60f);
@@ -174,7 +176,7 @@ public class ExpansionBlocks {
                 requirements(Category.crafting, ItemStack.with(lead, 120, titanium, 85, plastanium, 85, thorium, 95, siliconAlloy, 120));
                 size = 4;
                 consumeItems(ItemStack.with(tebriy, 5, silicon, 8, pyratite, 1));
-                consumeLiquid(Liquids.cryofluid, 0.1f);
+                consumeLiquid(cryofluid, 0.1f);
                 consumePower(295/60f);
                 ambientSound = Sounds.smelter; ambientSoundVolume = 0.09f;
                 itemCapacity = 15;
@@ -210,8 +212,8 @@ public class ExpansionBlocks {
                 outputLiquid = new LiquidStack(ExpansionLiquids.steam, 30 / 60f);
                 craftTime =  60;
                 updateEffectChance = 0.3f;
-                explodeOnFull = true;
-                effectOnPressure = true;
+                explodeOnFull = false;
+                effectOnPressure = false;
                 pressureEffect = ExpFx.steamPressure;
                 liquidCapacity = 120;
                 updateEffect = new ParticleEffect(){{
@@ -228,14 +230,14 @@ public class ExpansionBlocks {
             collider = new ColiderCrafter("collider"){{
                 requirements(Category.crafting, ItemStack.with(lead, 120, thorium, 70, plastanium, 45, siliconAlloy, 55));
                 size = 3;
-                craftTime = 20;
+                craftTime = 10;
                 produceChance = 0.25f;
                 consumeLiquid(cryofluid, 12/60f);
                 liquidCapacity = 20;
                 itemCapacity = 20;
                 consumePower(420/60f);
                 consumeItems(ItemStack.with(titanium, 1, thorium, 1));
-                outputItem = new ItemStack(cobalt, 2);
+                outputItem = new ItemStack(cobalt, 3);
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(cryofluid), new DrawPlasma(), new DrawDefault());
             }};
 
@@ -401,7 +403,7 @@ public class ExpansionBlocks {
                             ammoMultiplier = 0.5f;
                             statusDuration = 60f * 4f;
                         }},
-                        Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
+                        cryofluid, new LiquidBulletType(cryofluid){{
                             lifetime = 31f;
                             speed = 8f;
                             knockback = 1.9f;

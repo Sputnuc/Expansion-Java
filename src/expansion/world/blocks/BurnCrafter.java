@@ -49,7 +49,6 @@ public class BurnCrafter extends GenericCrafter {
                             () -> build.pressure / maxPressure
                     );
                 }
-                // fallback, если вдруг подсунули "adapter"
                 return new Bar(() -> "?", () -> Pal.gray, () -> 0f);
             });
         }
