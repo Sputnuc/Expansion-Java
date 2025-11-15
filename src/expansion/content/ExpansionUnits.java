@@ -461,10 +461,9 @@ public class ExpansionUnits {
             flying = true;
             trailLength = 6;
             health = 7000;
-            hitSize = 54/2f;
             armor = 8;
             rotateSpeed = 2.5f;
-            hitSize =
+            hitSize = 25;
             speed = 2.4f;
             lowAltitude = true;
             engineSize = 5f; engineOffset = 80/4f;
@@ -759,7 +758,7 @@ public class ExpansionUnits {
                 mirror = rotate = true;
                 shake = 2;
                 inaccuracy = 4;
-                bullet = new BasicBulletType(3.5f, 15){{
+                bullet = new BasicBulletType(3.5f, 20){{
                     lifetime = 55;
                     width = 14; height = 15;
                 }};

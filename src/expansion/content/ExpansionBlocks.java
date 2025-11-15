@@ -25,6 +25,7 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.Block;
+import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.power.ConsumeGenerator;
@@ -42,6 +43,7 @@ import static expansion.content.ExpansionItems.*;
 import static mindustry.Vars.tilesize;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Fx.none;
+import static mindustry.content.Fx.shootBig;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.Liquids.cryofluid;
@@ -499,6 +501,7 @@ public class ExpansionBlocks {
                        frontColor = hitColor = Pal.graphiteAmmoFront;
                        backColor = trailColor = Pal.graphiteAmmoBack;
                        hitEffect = despawnEffect = hitBigBulletColor;
+                       shootEffect = shootBig;
                        trailLength = 8;
                        trailWidth = 1.5f;
                        ammoMultiplier = 4;
@@ -516,6 +519,7 @@ public class ExpansionBlocks {
                             frontColor = Pal.thoriumAmmoFront;
                             backColor = hitColor = trailColor = Pal.thoriumAmmoBack;
                             hitEffect = despawnEffect = hitBigBulletColor;
+                            shootEffect = shootBig;
                             status = StatusEffects.slow;
                             trailEffect = Fx.colorSpark;
                             trailRotation = true;
@@ -538,6 +542,7 @@ public class ExpansionBlocks {
                             frontColor = hitColor = Pal.lightishOrange;
                             backColor = trailColor = Pal.lightOrange;
                             hitEffect = despawnEffect = new MultiEffect(Fx.fireHit, hitBigFire);
+                            shootEffect = shootBig;
                             status = StatusEffects.melting;
                             statusDuration = 150;
                             trailLength = 8;
@@ -553,6 +558,7 @@ public class ExpansionBlocks {
                             frontColor = hitColor = ExpPal.cobaltPal;
                             backColor = hitColor = trailColor = Color.valueOf("485596");
                             hitEffect = despawnEffect = hitBigBulletColor;
+                            shootEffect = shootBig;
                             trailEffect = Fx.colorSpark;
                             trailRotation = true;
                             trailInterval = 4;

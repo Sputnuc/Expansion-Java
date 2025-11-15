@@ -109,6 +109,7 @@ public class ExpansionTT {
                 node(calcite);
             });
         });
+        UtTT.load();
     }
 
     //Stolen from MeepOfFaith/Additional Logistic

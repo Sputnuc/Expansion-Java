@@ -7,6 +7,7 @@ public class ExpLoader {
         ExpansionLiquids.load();
         ExpansionUnits.load();
         ExpansionBlocks.load();
+        UtBlocks.load();
         ExpansionEnv.load();
         ExpansionTT.load();
     }
