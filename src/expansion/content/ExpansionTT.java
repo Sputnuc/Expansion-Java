@@ -12,12 +12,11 @@ import static expansion.content.ExpansionBlocks.*;
 import static expansion.content.ExpansionItems.*;
 import static expansion.content.ExpansionUnits.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.UnitTypes.*;
 import static mindustry.content.Items.*;
 
 public class ExpansionTT {
     static TechTree.TechNode context = null;
-    public static void load(){
+    public static void serpuloTechTreeLoad(){
         //Turrets
         vanillaNode(salvo, () -> {
             node(collapseTurret);
@@ -91,29 +90,37 @@ public class ExpansionTT {
         });
         //items
         vanillaNode(sporePod, ()->{
-            node(wood);
+            nodeProduce(wood, ()->{});
         });
         vanillaNode(copper, ()->{
-            node(tebriy, ()->{
-                node(tebriyAlloy, ()->{
-                    node(siliconAlloy, ()->{
-                        node(cobalt, ()->{
-                            node(carbon);
+            nodeProduce(tebriy, ()->{
+                nodeProduce(tebriyAlloy, ()->{
+                    nodeProduce(siliconAlloy, ()->{
+                        nodeProduce(cobalt, ()->{
+                            nodeProduce(carbon, ()->{});
                         });
                     });
                 });
             });
         });
-        erekirNode(tungsten, ()->{
-            node(nickel, ()->{
-                node(calcite);
-            });
-        });
         UtTT.load();
     }
 
-    //Stolen from MeepOfFaith/Additional Logistic
-    //Sorry :/
+    public static void erekirTechTreeLoad(){
+        erekirNode(tungsten, ()->{
+            nodeProduce(nickel, ()->{
+                nodeProduce(calcite, ()->{});
+            });
+        });
+        erekirNode(breach, ()->{
+            node(section);
+        });
+        erekirNode(ductUnloader, ()->{
+            node(coreUnloader);
+        });
+    }
+
+    //Remade from MeepOfFaith/Additional Logistic
     private static void vanillaNode(UnlockableContent parent, Runnable children){
         vanillaNode("serpulo", parent, children);
     }
@@ -125,13 +132,9 @@ public class ExpansionTT {
     }
 
     private static void erekirNode(UnlockableContent parent, Runnable children){
-        erekirNode("erekir", parent, children);
+        vanillaNode("erekir", parent, children);
     }
 
-    private static void erekirNode(String tree, UnlockableContent parent, Runnable children){
-        context = findNode(TechTree.roots.find(r -> r.name.equals(tree)), n -> n.content == parent);
-        children.run();
-    }
 
     private static TechNode findNode(TechNode root, Boolf<TechNode> filter){
         if(filter.get(root)) return root;
@@ -142,13 +145,10 @@ public class ExpansionTT {
         return null;
     }
 
-    private static void rebaseNode(Content next){
-        rebaseNode("serpulo", next);
-    }
-
     /** Moves a node from its parent to the context node. */
     private static void rebaseNode(String tree, Content next){
         TechNode oldNode = findNode(TechTree.roots.find(r -> r.name.equals(tree)), n -> n.content == next);
+        assert oldNode != null;
         oldNode.parent.children.remove(oldNode);
         context.children.add(oldNode);
         oldNode.parent = context;
@@ -158,14 +158,14 @@ public class ExpansionTT {
             ItemStack[] req = ItemStack.copy(oldNode.requirements);
             if(oldNode.researchCostMultipliers.size > 0){
                 for(ItemStack itemStack : req){
-                    itemStack.amount /= oldNode.researchCostMultipliers.get(itemStack.item, 1f);
+                    itemStack.amount /= (int) oldNode.researchCostMultipliers.get(itemStack.item, 1f);
                 }
             }
 
             //Apply new multipliers
             if(context.researchCostMultipliers.size > 0){
                 for(ItemStack itemStack : req){
-                    itemStack.amount *= context.researchCostMultipliers.get(itemStack.item, 1f);
+                    itemStack.amount *= (int) context.researchCostMultipliers.get(itemStack.item, 1f);
                 }
             }
             oldNode.requirements = req;
@@ -208,5 +208,13 @@ public class ExpansionTT {
 
     private static void node(UnlockableContent block){
         node(block, () -> {});
+    }
+
+    public static void nodeProduce(UnlockableContent content, Seq<Objective> objectives, Runnable children){
+        node(content, content.researchRequirements(), objectives.add(new Produce(content)), children);
+    }
+
+    public static void nodeProduce(UnlockableContent content, Runnable children){
+        nodeProduce(content, new Seq<>(), children);
     }
 }

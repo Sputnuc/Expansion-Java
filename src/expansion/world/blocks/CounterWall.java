@@ -2,9 +2,7 @@ package expansion.world.blocks;
 
 import arc.Core;
 import arc.graphics.Color;
-import arc.util.Nullable;
 import arc.util.Strings;
-import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import expansion.world.meta.ExpStat;
@@ -13,10 +11,7 @@ import mindustry.entities.Effect;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.defense.Wall;
-import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
-
-import static mindustry.logic.LogicOp.or;
 
 public class CounterWall extends Wall {
     public CounterWall(String name) {
@@ -27,8 +22,8 @@ public class CounterWall extends Wall {
     }
 
     public int canCountered = 3;
-    public float coolDown = 3 * 60;
-    public float coolDownOnDestroy = coolDown * 5;
+    public float cooldown = 3 * 60;
+    public float cooldownOnDestroy = 30 * 60;
     public float counterDamageFactor = 0;
     public Effect counterEffect = Fx.none;
 
@@ -36,8 +31,8 @@ public class CounterWall extends Wall {
     public void setStats(){
         super.setStats();
         stats.add(ExpStat.canCounters, canCountered);
-        stats.add(ExpStat.counterWallCooldown, coolDown / 60f, StatUnit.seconds);
-        stats.add(ExpStat.counterWallCooldownOnDestroy, coolDownOnDestroy / 60f, StatUnit.seconds);
+        stats.add(ExpStat.counterWallCooldown, cooldown / 60f, StatUnit.seconds);
+        stats.add(ExpStat.counterWallCooldownOnDestroy, cooldownOnDestroy / 60f, StatUnit.seconds);
     }
 
     @Override
@@ -45,9 +40,9 @@ public class CounterWall extends Wall {
         super.setBars();
         addBar("cooldown", (CounterWall.CounterWallBuild entity) ->
                 new Bar(
-                        () -> Core.bundle.format("bar.cooldown", Strings.autoFixed((entity.counter / (entity.destroyed ? coolDownOnDestroy : coolDown)) * 100, 0)),
+                        () -> Core.bundle.format("bar.cooldown", Strings.autoFixed((entity.counter / (entity.destroyed ? cooldownOnDestroy : cooldown)) * 100, 0)),
                         () -> Color.valueOf("f0f7c3"),
-                        () -> entity.counter / (entity.destroyed ? coolDownOnDestroy : coolDown)
+                        () -> entity.counter / (entity.destroyed ? cooldownOnDestroy : cooldown)
                 )
         );
         addBar("counters", (CounterWall.CounterWallBuild entity) ->
@@ -71,7 +66,7 @@ public class CounterWall extends Wall {
             if(canConsume()){
                 if(destroyed){
                     counter += edelta();
-                    if (counter >= coolDownOnDestroy) {
+                    if (counter >= cooldownOnDestroy) {
                         destroyed = false;
                         counters++;
                         counter = 0;
@@ -79,7 +74,7 @@ public class CounterWall extends Wall {
                 } else {
                     if (counters < canCountered){
                         counter += edelta();
-                        if (counter >= coolDown){
+                        if (counter >= cooldown){
                             counters++;
                             counter = 0;
                         }
@@ -100,7 +95,7 @@ public class CounterWall extends Wall {
                     counterEffect.at(this.x, this.y);
                     Fx.healBlockFull.at(x, y, block.size, Color.valueOf("ffffff"), block);
                 } else super.damage(damage);
-            } else super.damage(damage);
+            } else super.damage(damage / 2);
         }
         @Override
         public void write(Writes write){

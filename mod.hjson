@@ -4,5 +4,5 @@ author: Sputnuc
 main: "expansion.ExpansionMain"
 description: "Recreation of my first mod"
 version: 0.1.4.3
-minGameVersion: 149
+minGameVersion: 154.3
 java: true

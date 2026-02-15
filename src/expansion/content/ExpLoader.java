@@ -6,9 +6,11 @@ public class ExpLoader {
         ExpansionItems.load();
         ExpansionLiquids.load();
         ExpansionUnits.load();
-        ExpansionBlocks.load();
+        ExpansionBlocks.loadSerpuloContent();
+        ExpansionBlocks.loadErekirContent();
         UtBlocks.load();
         ExpansionEnv.load();
-        ExpansionTT.load();
+        ExpansionTT.serpuloTechTreeLoad();
+        ExpansionTT.erekirTechTreeLoad();
     }
 }

@@ -10,24 +10,20 @@ import expansion.world.blocks.AdvancedLiquidTurret;
 import expansion.world.blocks.BurnCrafter;
 import expansion.world.blocks.CounterWall;
 import expansion.world.blocks.ColiderCrafter;
+import expansion.world.blocks.distribution.DirectionalCoreUnloader;
 import mindustry.content.*;
+import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
-import mindustry.entities.part.FlarePart;
-import mindustry.entities.part.HaloPart;
 import mindustry.entities.part.RegionPart;
-import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootAlternate;
-import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
-import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.power.ConsumeGenerator;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
@@ -35,13 +31,13 @@ import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.consumers.ConsumeItemExplode;
 import mindustry.world.consumers.ConsumeItemFlammable;
+import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BlockFlag;
 
 import static expansion.content.ExpFx.*;
 import static expansion.content.ExpansionItems.*;
 import static mindustry.Vars.tilesize;
-import static mindustry.content.Blocks.*;
 import static mindustry.content.Fx.none;
 import static mindustry.content.Fx.shootBig;
 import static mindustry.content.Items.*;
@@ -50,6 +46,7 @@ import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
 
 public class ExpansionBlocks {
+        //Serpulo
         public static Block
         //production
                 steamDrill,
@@ -63,7 +60,12 @@ public class ExpansionBlocks {
                 tebriyWall, tebriyWallLarge, cobaltWall, cobaltWallLarge,
         //unit blocks
                 baseFactory, upgradeReconstructor, improvingReconstructor, progressiveReconstructor, quantumReassembler;
-        public static void load() {
+        //Erikir
+        public static Block
+                section, coreUnloader;
+
+
+        public static void loadSerpuloContent() {
             //production
             steamDrill = new Drill("steam-drill"){{
                 requirements(Category.production, ItemStack.with(copper, 25, titanium, 30));
@@ -92,7 +94,7 @@ public class ExpansionBlocks {
                 craftTime = 60;
 
                 size = 3;
-                ambientSound = Sounds.smelter; ambientSoundVolume = 0.075f;
+                ambientSound = Sounds.loopSmelter; ambientSoundVolume = 0.075f;
 
                 drawer = new DrawMulti(new DrawDefault(), new DrawFlame(){{
                     flameRadius = 4.5f;
@@ -123,7 +125,7 @@ public class ExpansionBlocks {
                 craftTime = 90;
 
                 size = 4;
-                ambientSound = Sounds.smelter; ambientSoundVolume = 0.1f;
+                ambientSound = Sounds.loopSmelter; ambientSoundVolume = 0.1f;
 
                 drawer = new DrawMulti(new DrawDefault(), new DrawFlame(){{
                     flameRadius = 6.5f;
@@ -153,7 +155,7 @@ public class ExpansionBlocks {
                 craftTime = 60;
 
                 size = 3;
-                ambientSound = Sounds.smelter; ambientSoundVolume = 0.075f;
+                ambientSound = Sounds.loopSmelter; ambientSoundVolume = 0.075f;
 
                 drawer = new DrawMulti(new DrawDefault(), new DrawFlame(){{
                     flameRadius = 4.5f;
@@ -180,7 +182,7 @@ public class ExpansionBlocks {
                 consumeItems(ItemStack.with(tebriy, 5, silicon, 8, pyratite, 1));
                 consumeLiquid(cryofluid, 0.1f);
                 consumePower(295/60f);
-                ambientSound = Sounds.smelter; ambientSoundVolume = 0.09f;
+                ambientSound = Sounds.loopSmelter; ambientSoundVolume = 0.09f;
                 itemCapacity = 15;
                 liquidCapacity = 35;
                 outputItem = new ItemStack(siliconAlloy, 10);
@@ -290,7 +292,7 @@ public class ExpansionBlocks {
                 range = 200;
                 shake = 2;
                 inaccuracy = 3;
-                shootSound = Sounds.shootBig;
+                shootSound = Sounds.shootSalvo;
                 consumeCoolant(0.25f);
                 liquidCapacity = 30;
                 ammo(
@@ -358,7 +360,7 @@ public class ExpansionBlocks {
                 liquidConsumeMultiplier = 10;
                 shootCone = 10;
                 range = 16 * 13;
-                shootSound = Sounds.flame;
+                shootSound = Sounds.shootFlame;
                 reload = 5;
                 inaccuracy = 2;
                 shootEffect = bigFireShoot;
@@ -482,7 +484,7 @@ public class ExpansionBlocks {
                 coolantMultiplier = 0.25f;
                 maxOverheatThreshold = 60;
                 overheatTime = 250;
-                shootSound = Sounds.shootBig;
+                shootSound = Sounds.shootSpectre;
                 range = 40 * tilesize;
                 shake = 4;
                 recoil = 1.4f;
@@ -582,10 +584,10 @@ public class ExpansionBlocks {
                 shake = 5.85f;
                 rotateSpeed = 1.1f;
                 shootCone = 0.01f;
-                maxAmmo = 100;
-                ammoPerShot = 20;
+                maxAmmo = 150;
+                ammoPerShot = 50;
                 ammoUseEffect = Fx.casing3Double;
-                shootSound = Sounds.railgun;
+                shootSound = Sounds.shootForeshadow;
                 recoil = 8f;
                 cooldownTime = reload;
                 coolantMultiplier = 0.2f;
@@ -604,7 +606,7 @@ public class ExpansionBlocks {
                             hitColor = Pal.bulletYellowBack;
                             despawnEffect = Fx.instBomb;
                             pointEffectSpace = 26f;
-                            damage = 7950;
+                            damage = 5900;
                             status = StatusEffects.shocked;
                             statusDuration = 600;
                             buildingDamageMultiplier = 0.1f;
@@ -635,23 +637,28 @@ public class ExpansionBlocks {
                         }}
                 );
             }};
+
             //Walls
             cobaltWall = new CounterWall("cobalt-wall"){{
                 requirements(Category.defense, ItemStack.with(silicon, 7, cobalt, 5));
-                health = 300;
+                absorbLasers = true;
+                health = 350;
                 canCountered = 5;
-                coolDown = 60;
-                coolDownOnDestroy = 5 * 60;
-                consumePower(35f / 60f);
+                cooldown = 60;
+                cooldownOnDestroy = 5 * 60;
+                counterDamageFactor = 0.025f;
+                consumePower(30f / 60f);
             }};
             cobaltWallLarge =new CounterWall("cobalt-wall-large"){{
                 requirements(Category.defense, ItemStack.with(silicon, 28, cobalt, 20));
                 size = 2;
-                health = 300*4;
+                absorbLasers = true;
+                health = 350*4;
                 canCountered = 10;
-                coolDown = 60;
-                coolDownOnDestroy = 5 * 60;
-                consumePower(35f / 60f * 4);
+                cooldown = 60;
+                cooldownOnDestroy = 5 * 60;
+                counterDamageFactor = 0.025f;
+                consumePower(30f / 60f * 4);
             }};
 
             //Unit blocks
@@ -721,6 +728,74 @@ public class ExpansionBlocks {
                         new UnitType[]{ExpansionUnits.storm, ExpansionUnits.hurricane},
                         new UnitType[]{ExpansionUnits.aurora, ExpansionUnits.neptune}
                 );
+            }};
+        }
+
+        public static void loadErekirContent(){
+            section = new AccelTurret("section"){{
+                requirements(Category.turret, with(beryllium, 135, silicon, 110, tungsten, 85));
+                researchCostMultiplier = 0.55f;
+                size = 3;
+                canOverheat = true;
+                overheatMultiplier = 8.5f;
+                reload = 210;
+                maxAccel = 25;
+                shootY = 4;
+                speedUpPerShoot = 5.5f;
+                cooldownSpeed = 0.05f;
+                scaledHealth = 180;
+                rotateSpeed = 1.75f;
+                shake = 0.75f;
+                coolantMultiplier = 15;
+                maxOverheatThreshold = 600f;
+                overheatTime = 60;
+                shootSound = Sounds.shootDisperse;
+                coolant = consume(new ConsumeLiquid(Liquids.water, 20 / 60f));
+                range = 180;
+                Effect shfx = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
+                ammo(
+                        beryllium, new BasicBulletType(6, 45){{
+                            lifetime = 180 / 6f;
+                            width = 9f;
+                            height = 13f;
+                            shootEffect = shfx;
+                            hitColor = backColor = trailColor = Pal.berylShot;
+                            frontColor = Color.white;
+                            trailWidth = 1.1f;
+                            trailLength = 5;
+                            hitEffect = despawnEffect = Fx.hitBulletColor;
+                            buildingDamageMultiplier = 0.3f;
+                        }},
+                        tungsten, new BasicBulletType(8, 75){{
+                            reloadMultiplier = 0.45f;
+                            lifetime = 180 / 8f;
+                            width = 10.5f;
+                            height = 16f;
+                            shootEffect = shfx;
+                            hitColor = backColor = trailColor = Pal.tungstenShot;
+                            frontColor = Color.white;
+                            trailWidth = 1.25f;
+                            trailLength = 6;
+                            hitEffect = despawnEffect = Fx.hitBulletColor;
+                            buildingDamageMultiplier = 0.3f;
+                        }}
+                );
+                drawer = new DrawTurret("reinforced-"){{
+                    parts.add(new RegionPart("-barrel"){{
+                        progress = PartProgress.recoil.curve(Interp.pow2In);
+                        moveY = -4 * 4 / 3f;
+                        heatColor = Color.valueOf("ab8ec5");
+                    }});
+                }};
+            }};
+
+            //Storage
+            coreUnloader = new DirectionalCoreUnloader("duct-core-unloader"){{
+                requirements(Category.distribution, with(beryllium, 20, silicon, 15,tungsten, 15));
+                health = 120;
+                speed = 16f;
+                solid = false;
+                underBullets = true;
             }};
         }
 }

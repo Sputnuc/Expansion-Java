@@ -86,7 +86,7 @@ public class ExpansionUnits {
                         x = 7;
                         y = -5;
                         reload = 15;
-                        shootSound = Sounds.pew;
+                        shootSound = Sounds.shoot;
                         mirror = rotate = true;
                         rotateSpeed = 1.9f;
                         shootCone = 2;
@@ -99,7 +99,7 @@ public class ExpansionUnits {
                     }},
             new Weapon("expansion-armada-weapon-main"){{
                 x = y = 0;
-                shootSound = Sounds.artillery;
+                shootSound = Sounds.shootArtillery;
                 reload = 60;
                 shake = 2.5f;
                 mirror = false;
@@ -191,7 +191,7 @@ public class ExpansionUnits {
                         mirror = false;
                         rotateSpeed = 0.8f;
                         inaccuracy = 1.3f;
-                        shootSound = Sounds.artillery;
+                        shootSound = Sounds.shootArtillery;
                         range = 260;
                         bullet = new ArtilleryBulletType(10, 90){{
                             sprite = "missile-large";
@@ -249,7 +249,7 @@ public class ExpansionUnits {
                 mirror = false;
                 shake = 6.5f;
                 rotateSpeed = 0.55f;
-                shootSound = Sounds.mediumCannon;
+                shootSound = Sounds.shootRipple;
                 inaccuracy = 5.5f;
                 velocityRnd = 0.15f;
                 shootCone = 3.5f;
@@ -296,7 +296,7 @@ public class ExpansionUnits {
                 rotateSpeed = 0.45f;
                 reload = 240;
                 shake = 8;
-                shootSound = Sounds.railgun;
+                shootSound = Sounds.shootForeshadow;
                 inaccuracy = 0;
                 shootCone = 1;
                 recoil = 6;
@@ -386,7 +386,7 @@ public class ExpansionUnits {
                 shoot.shots = 2;
                 shoot.shotDelay = 3;
                 inaccuracy = 5;
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 velocityRnd = 0.35f;
                 bullet = new MissileBulletType(5,12){{
                     lifetime = 30;
@@ -432,7 +432,7 @@ public class ExpansionUnits {
                             reload = 40;
                             recoil = 0.3f;
                             mirror = false;
-                            shootSound = Sounds.missile;
+                            shootSound = Sounds.shootMissile;
                             rotate = true;
                             inaccuracy = 8;
                             velocityRnd = 0.2f;
@@ -468,7 +468,7 @@ public class ExpansionUnits {
             lowAltitude = true;
             engineSize = 5f; engineOffset = 80/4f;
             weapons.add(new Weapon("storm-missile-launcher"){{
-                shootSound = Sounds.missileLarge;
+                shootSound = Sounds.shootMissileLarge;
                 x = 54f / 4f;
                 y = -16f / 4f;
                 mirror = true;
@@ -516,7 +516,7 @@ public class ExpansionUnits {
                  x = 0;
                  y = 0;
                  reload = 60;
-                 shootSound = Sounds.cannon;
+                 shootSound = Sounds.shootSmite;
                  recoil = 2.5f;
                  cooldownTime = 45;
                  rotateSpeed = 0.9f;
@@ -567,7 +567,7 @@ public class ExpansionUnits {
                         mirror = true;
                         rotate = true;
                         reload = 17;
-                        shootSound = Sounds.missile;
+                        shootSound = Sounds.shootMissile;
                         bullet = new MissileBulletType(4, 39){{
                             splashDamage = 55;
                             splashDamageRadius = 2.5f*8;
@@ -583,7 +583,7 @@ public class ExpansionUnits {
                         mirror = true;
                         rotate = true;
                         reload = 18;
-                        shootSound = Sounds.missile;
+                        shootSound = Sounds.shootMissile;
                         bullet = new MissileBulletType(4, 39){{
                             splashDamage = 55;
                             splashDamageRadius = 2.5f*8;
@@ -601,7 +601,7 @@ public class ExpansionUnits {
                         shoot.shots = 3;
                         shoot.shotDelay = 5;
                         hitSize = 45;
-                        shootSound = Sounds.missileLarge;
+                        shootSound = Sounds.shootMissileLarge;
                         bullet = new BulletType(){{
                             smokeEffect = Fx.shootSmokeTitan;
                             shake = 4f;
@@ -653,7 +653,7 @@ public class ExpansionUnits {
                 rotateSpeed = 1.7f;
                 inaccuracy = 1.5f;
                 mirror = true;
-                shootSound = Sounds.bolt;
+                shootSound = Sounds.shootLocus;
                 rotate = true;
                 bullet = new LaserBulletType(12){{
                     sideWidth = 3;
@@ -674,7 +674,7 @@ public class ExpansionUnits {
                         reload = 35;
                         rotateSpeed = 1.5f;
                         mirror = false;
-                        shootSound = Sounds.missile;
+                        shootSound = Sounds.shootMissile;
                         rotate = true;
                         bullet = new MissileBulletType(4, 12f){{
                             keepVelocity = true;
@@ -723,7 +723,7 @@ public class ExpansionUnits {
                         rotate = true;
                         mirror = false;
                         shake = 4.2f;
-                        shootSound = Sounds.bang;
+                        shootSound = Sounds.shootSalvo;
                         rotateSpeed = 1.1f;
                         reload = 75;
                         range = 210;
@@ -754,7 +754,7 @@ public class ExpansionUnits {
                 x = -41f / 4f; y = -32f / 4f;
                 reload = 6;
                 rotateSpeed = 1.5f;
-                shootSound = Sounds.shootBig;
+                shootSound = Sounds.shootSalvo;
                 mirror = rotate = true;
                 shake = 2;
                 inaccuracy = 4;
@@ -767,7 +767,7 @@ public class ExpansionUnits {
                 x = 0; y = -2;
                 reload = 60;
                 rotateSpeed = 1.2f;
-                shootSound = Sounds.plasmaboom;
+                shootSound = Sounds.shootAfflict;
                 mirror = false;
                 rotate = true;
                 shake = 4;
@@ -803,7 +803,7 @@ public class ExpansionUnits {
                 inaccuracy = 11;
                 shoot.shots = 3;
                 velocityRnd = 0.1f;
-                shootSound = Sounds.artillery;
+                shootSound = Sounds.shootArtillery;
                 rotateSpeed = 1.4f;
                 bullet = new BasicBulletType(4, 45){{
                     splashDamage = 65f;
@@ -828,7 +828,8 @@ public class ExpansionUnits {
                  continuous = true;
                  reload = 270;
                  cooldownTime = 270;
-                 shootSound = Sounds.beam;
+                 shootSound = Sounds.beamPlasma;
+                 initialShootSound = Sounds.shootBeamPlasma;
                  bullet = new ContinuousLaserBulletType(42){{
                      length = 20 * tilesize;
                      width = 8;
@@ -850,7 +851,7 @@ public class ExpansionUnits {
                         reload = 10;
                         rotateSpeed = 2.3f;
                         alternate = false;
-                        shootSound = Sounds.bang;
+                        shootSound = Sounds.shootArtillery;
                         bullet = new ArtilleryBulletType(4.5f, 90){{
                             lifetime = 80;
                             width = 10; height = 12;
@@ -866,7 +867,7 @@ public class ExpansionUnits {
                         reload = 150;
                         shoot.shots = 6;
                         shoot.shotDelay = 5;
-                        shootSound = Sounds.missileLarge;
+                        shootSound = Sounds.shootMissileLarge;
                         bullet = new BulletType(){{
                             smokeEffect = Fx.shootSmokeTitan;
                             shake = 3f;
